@@ -19,17 +19,18 @@ before_script:
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 script:
-- export DIESEL_VER=`
+- export DIESEL_TAG=`
   curl --silent "https://api.github.com/repos/$DIESEL_REPO/releases/latest" |
   jq -r .tag_name`
+- export DIESEL_VER=`echo $DIESEL_TAG | grep -oP '(?<=v)\d+\.\d+\.\d+'`
 - docker build --target $DOCKER_BUILD_TARGET --build-arg DIESEL_VER=$DIESEL_VER
-  -t $IMAGE_NAME:$DIESEL_VER
+  -t $IMAGE_NAME:$DIESEL_TAG
   $DOCKERFILE_DIR
 
 after_success:
 - |
   if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-    docker push $IMAGE_NAME:$DIESEL_VER;
+    docker push $IMAGE_NAME:$DIESEL_TAG;
   fi
 
 branches:
