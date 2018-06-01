@@ -1,0 +1,37 @@
+language: bash
+
+env:
+  global:
+  - PROJECT_NAME=diesel-cli
+  - DIESEL_REPO=diesel-rs/diesel
+  - IMAGE_NAME=$DOCKER_USERNAME/$PROJECT_NAME
+  - DOCKERFILE_DIR=.
+  - DOCKER_BUILD_TARGET=provider
+
+matrix:
+  include:
+  - services: docker
+
+before_script:
+- set -e
+- docker --version
+# always test login
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
+script:
+- export DIESEL_VER=
+  `curl --silent "https://api.github.com/repos/$DIESEL_REPO/releases/latest" |
+  jq -r .tag_name`
+- docker build --target $DOCKER_BUILD_TARGET --build-arg DIESEL_VER=$DIESEL_VER
+  -t $IMAGE_NAME:$DIESEL_VER
+  $DOCKERFILE_DIR
+
+after_success:
+- |
+  if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+    docker push $IMAGE_NAME:$DIESEL_VER;
+  fi
+
+branches:
+  only:
+  - master
