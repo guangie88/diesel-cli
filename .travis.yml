@@ -22,7 +22,9 @@ script:
 - export DIESEL_TAG=`
   curl --silent "https://api.github.com/repos/$DIESEL_REPO/releases/latest" |
   jq -r .tag_name`
+- echo $DIESEL_TAG
 - export DIESEL_VER=`echo $DIESEL_TAG | grep -oP '(?<=v)\d+\.\d+\.\d+'`
+- echo $DIESEL_VER
 - docker build --target $DOCKER_BUILD_TARGET --build-arg DIESEL_VER=$DIESEL_VER
   -t $IMAGE_NAME:$DIESEL_TAG
   $DOCKERFILE_DIR
