@@ -19,8 +19,8 @@ before_script:
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 script:
-- export DIESEL_VER=
-  `curl --silent "https://api.github.com/repos/$DIESEL_REPO/releases/latest" |
+- export DIESEL_VER=`
+  curl --silent "https://api.github.com/repos/$DIESEL_REPO/releases/latest" |
   jq -r .tag_name`
 - docker build --target $DOCKER_BUILD_TARGET --build-arg DIESEL_VER=$DIESEL_VER
   -t $IMAGE_NAME:$DIESEL_VER
