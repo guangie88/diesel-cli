@@ -12,7 +12,6 @@ matrix:
   - services: docker
 
 before_script:
-- set -e
 - docker --version
 # always test login
 - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
