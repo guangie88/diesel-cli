@@ -19,12 +19,10 @@ before_script:
 
 script:
 - |-
-  export DIESEL_TAG=`
+  export DIESEL_VER=`
     curl https://raw.githubusercontent.com/diesel-rs/diesel/master/diesel_cli/Cargo.toml |
     grep -E "^version" |
     sed -E 's/version = "([[:digit:]].[[:digit:]].[[:digit:]])"/\1/'`
-- echo ${DIESEL_TAG}
-- export DIESEL_VER=`echo ${DIESEL_TAG} | grep -oP '(?<=v)\d+\.\d+\.\d+'`
 - echo ${DIESEL_VER}
 - |-
   docker build \
