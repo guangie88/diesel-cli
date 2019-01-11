@@ -26,10 +26,10 @@ script:
 - export DIESEL_VER=`echo ${DIESEL_TAG} | grep -oP '(?<=v)\d+\.\d+\.\d+'`
 - echo ${DIESEL_VER}
 - |-
-  docker build
-    --target ${DOCKER_BUILD_TARGET}
-    --build-arg DIESEL_VER=${DIESEL_VER}
-    -t ${IMAGE_NAME}:${DIESEL_TAG}
+  docker build \
+    --target ${DOCKER_BUILD_TARGET} \
+    --build-arg DIESEL_VER=${DIESEL_VER} \
+    -t ${IMAGE_NAME}:${DIESEL_TAG} \
     ${DOCKERFILE_DIR}
 
 after_success:
