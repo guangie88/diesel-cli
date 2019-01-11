@@ -24,6 +24,8 @@ script:
     grep -E "^version" |
     sed -E 's/version = "([[:digit:]].[[:digit:]].[[:digit:]])"/\1/'`
 - echo ${DIESEL_VER}
+- export DIESEL_TAG=v${DIESEL_VER}
+- echo ${DIESEL_TAG}
 - |-
   docker build \
     --target ${DOCKER_BUILD_TARGET} \
