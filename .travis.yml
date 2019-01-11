@@ -35,7 +35,9 @@ script:
 after_success:
 - |
   if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
-    docker push ${IMAGE_NAME}:${DIESEL_TAG};
+    docker push ${IMAGE_NAME}:${DIESEL_TAG}
+    docker tag ${IMAGE_NAME}:${DIESEL_TAG} ${IMAGE_NAME}:latest
+    docker push ${IMAGE_NAME}:latest
   fi
 
 branches:
