@@ -8,7 +8,7 @@ RUN cargo install diesel_cli \
     --no-default-features \
     --features "postgres mysql sqlite"
 
-FROM alpine:3.8 as provider
+FROM alpine:3.9 as provider
 
 RUN apk add --no-cache ca-certificates
 COPY --from=builder /root/.cargo/bin/diesel /usr/local/bin/
